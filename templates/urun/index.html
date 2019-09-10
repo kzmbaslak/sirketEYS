@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block head %}
+
+{% endblock head %}
+{% block title %}
+    Alım Liste
+{% endblock title %}
+{% block body %}
+    <div class="container">
+        {% include "urun/leftnav.html" %}
+        <div class="col-sm-10">
+            <div class="panel panel-default">
+                <div class="panel-heading">Alınan Ürün Listesi</div>
+                
+                <table class="table">
+                    <tr>
+                        <th>Ürün Adı</th>
+                        <th>Birim Fiyatı</th>
+                        <th>Stok Miktarı</th>
+                        <th></th>
+                    </tr>
+                    {% for urun in urunler %}
+                        <tr>
+                            <td>{{ urun.adi }}</td>
+                            <td>{{ urun.birimFiyati }}</td>
+                            <td>{{ urun.stokMiktari }}</td>
+                            <td>
+                                {% if canChange %}
+                                    <a href="{{ urun.get_update_url }}" class="btn btn-default" role="button">Stok Ekle</a>
+                                {% endif %}
+                                {% if canDelete %}
+                                    <a href="{{ urun.get_delete_url }}" class="btn btn-danger" role="button">Ürünü Sil</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock body %}

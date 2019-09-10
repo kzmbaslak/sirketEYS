@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block head %}
+    
+{% endblock head %}
+
+{% block title %}
+    Talep Detay
+{% endblock title %}
+
+{% block body %}
+
+    {%if request.user.is_authenticated %}
+        <div class="container">
+            <div class="row">
+                {% include "proje/leftnav.html" %}
+                <div class="col-sm-10">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="panel panel-default">
+                                <table class="table">
+                                    
+                                    <tr>
+                                        <th>Başlık</th> 
+                                        <td>{{ talep.baslik }}</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Talep Oluşturan</th>
+                                        <td>{{ talep.calisan.user.first_name }}</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Tarihi</th>
+                                        <td>{{ talep.tarihi }}</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Kabul Durumu</th>
+                                        <td>{{ talep.kabulDurumu }}</td>
+                                        <td>
+                                        {% if talep.kabulDurumu == null %}
+                                            <form method = "POST">
+                                                {% csrf_token %}
+                                                <input type = "submit" name= "kabul" class="btn btn-primary" role="button" value="Kabul Et">
+                                                <input type = "submit" name = "red" class="btn btn-danger" role="button" value="Reddet">
+                                            </form>
+                                        {% endif %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Talep İçeriği</th>
+                                        <td>{{ talep.text }}</td>
+                                        <td></td>
+                                    </tr>
+                                   
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {%endif%}
+{% endblock body %}

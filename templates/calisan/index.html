@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block head %}
+
+{% endblock head %}
+{% block title %}
+    Calışan
+{% endblock title %}
+{% block body %}
+    <div class="container">
+        {% include "calisan/leftnav.html" %}
+        <div class="col-sm-10">
+            {% for calisan in calisanlar %}
+                {% if calisan.user.is_active %}
+                    <div class="row">
+                        
+                        <div  class="col-sm-4">
+                            <a href="{{ calisan.get_absolute_url }}" class="thumbnail">
+                            <img src="{% if calisan.image %}{{ calisan.image.url }} {% endif %}" alt="Resim Bulunamadı">
+                            </a>
+                        </div>
+                        
+                        <div class="col-sm-7">
+                            <div class="panel panel-default">
+                                <table class="table">
+                                    
+                                    <tr>
+                                        <th>Ad</th> 
+                                        <td>{{ calisan.user.get_full_name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Tel</th>
+                                        <td>{{ calisan.tel }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Sgk No</th>
+                                        <td>{{ calisan.sgkNo }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Maas</th>
+                                        <td>{{ calisan.maas }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <a href="{{ calisan.get_absolute_url }}" class="btn btn-primary" role="button">İncele</a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock body %}

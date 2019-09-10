@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block head %}
+
+{% endblock head %}
+{% block title %}
+    Alım Fatura Detay
+{% endblock title %}
+{% block body %}
+    <div class="container">
+        {% include "alim/leftnav.html" %}
+        <div class="col-sm-10">
+            <div class="panel panel-default">
+                <div class="panel-heading">Alınan Ürün Listesi</div>
+                
+                <table class="table">
+                    <tr>
+                        <th>Ürün Adı</th>
+                        <th>Adedi</th> 
+                        <th>Birim Fiyatı</th>
+                        <th>Alım Tarihi</th>
+                        <th>Toplam Tutar</th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <td>{{ alim.urunAdi }}</td>
+                        <td>{{ alim.urunAdedi }}</td>
+                        <td>{{ alim.birimFiyati }}</td>
+                        <td>{{ alim.tarih }}</td>
+                        <td>{{ alim.get_toplam_tutar }}</td>
+                        <td>
+                        {% if canChange %}
+                            <a href="{{ alim.get_update_url }}" class="btn btn-default" role="button">Düzenle</a>
+                        {% endif %}
+                        {% if canDelete %}
+                            <a href="{{ alim.get_delete_url }}" class="btn btn-danger" role="button">İptal Et</a>
+                        {% endif %}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock body %}

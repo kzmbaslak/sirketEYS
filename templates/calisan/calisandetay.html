@@ -1,0 +1,225 @@
+{% extends "base.html" %}
+
+{% block head %}
+    
+{% endblock head %}
+
+{% block title %}
+
+{% endblock title %}
+
+{% block body %}
+
+    {%if request.user.is_authenticated %}
+        <div class="container">
+            <div class="row">
+                {% include "calisan/leftnav.html" %}
+                <div class="col-sm-10">
+                    <div class="row">
+                        <div  class="col-sm-9">
+                            <div >
+                                <a class="thumbnail">
+                                <img src="{% if calisan.image %}{{ calisan.image.url }} {% endif %}" alt="Resim Bulunamadı">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <div class="panel panel-default">
+                                <table class="table">
+                                    
+                                    <tr>
+                                        <th>Ad</th> 
+                                        <td>{{ calisan.user.get_full_name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Tel</th>
+                                        <td>{{ calisan.tel }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Sgk No</th>
+                                        <td>{{ calisan.sgkNo }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Maas</th>
+                                        <td>{{ calisan.maas }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Giriş Yapabilir</th>
+                                        <td>{{ calisan.user.is_staff }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Aktif</th>
+                                        <td>{{ calisan.user.is_active }}</td>
+                                    </tr>
+                                    {% if canChange %}
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <a href="{{ calisan.get_update_url }}" class="btn btn-default" role="button">Düzenle</a>
+                                            {% if not calisan.user.is_superuser %}
+                                                {% if calisan.user.is_active %}
+                                                    <a href="{{ calisan.get_passive_url }}" class="btn btn-danger" role="button">Engelle</a>
+                                                {% else %}
+                                                    <a href="{{ calisan.get_active_url }}" class="btn btn-danger" role="button">Aktif Yap</a>
+                                                {% endif %}
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endif %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    {% if sgkprimler %}
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Sgk Prim Ödeme Listesi</div>
+                                
+                                <table class="table">
+                                    <tr>
+                                        <th>Ödeme Tarihi</th>
+                                    </tr>
+                                    {% for sgkprim in sgkprimler %}
+                                        <tr>
+                                            <td>{{ sgkprim.odemeTarihi }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if maaslar %}
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Maaş Ödeme Listesi</div>
+                                
+                                <table class="table">
+                                    <tr>
+                                        <th>Ödeme Tarihi</th>
+                                    </tr>
+                                    {% for maas in maaslar %}
+                                        <tr>
+                                            <td>{{ maas.tarihi }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if izinler %}
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Alınan İzin Listesi</div>
+                                
+                                <table class="table">
+                                    <tr>
+                                        <th>Kategori</th>
+                                        <th>İzin Tarihi</th>
+                                        <th>Gün Sayısı</th>
+                                        <th></th>
+                                    </tr>
+                                    {% for izin in izinler %}
+                                        <tr>
+                                            <td>{{ izin.kategori }}</td>
+                                            <td>{{ izin.izinTarihi }}</td>
+                                            <td>{{ izin.gun }}</td>
+                                            <td>
+                                                {% if canChangeIzin %}
+                                                    <a href="{{ izin.get_update_url }}" class="btn btn-default" role="button">Düzenle</a>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if kartlar %}
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Kart Listesi</div>
+                                
+                                <table class="table">
+                                    <tr>
+                                        <th>Kodu</th>
+                                        <th></th>
+                                    </tr>
+                                    {% for kart in kartlar %}
+                                        <tr>
+                                            <td>{{ kart.kodu }}</td>
+                                            <td>
+                                                {% if canDeleteKart %}
+                                                    <a href="{{ kart.get_delete_url }}" class="btn btn-danger" role="button">Sil</a>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if ekipUyeler %}
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Ekip Proje Listesi</div>
+                                
+                                <table class="table">
+                                    <tr>
+                                        <th>Proje Adı</th>
+                                        <th>Ekip Adı</th>
+                                        <th>Yetki</th>
+                                    </tr>
+                                    {% for ekipUye in ekipUyeler %}
+                                        <tr>
+                                            <td>{{ ekipUye.ekip.proje.adi }}</td>
+                                            <td>{{ ekipUye.ekip.adi }}</td>
+                                            <td>{{ ekipUye.yetki.adi }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if projeTalepler %}
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Proje Talep Listesi</div>
+                                
+                                <table class="table">
+                                    <tr>
+                                        <th>Proje Adı</th>
+                                        <th>Başlık</th>
+                                        <th>Talep Tarihi</th>
+                                        <th>Kabul Durumu</th>
+                                    </tr>
+                                    {% for talep in projeTalepler %}
+                                        <tr>
+                                            <td>{{ talep.proje.adi }}</td>
+                                            <td>{{ talep.baslik }}</td>
+                                            <td>{{ talep.tarihi }}</td>
+                                            <td>{{ talep.kabulDurumu }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {%endif%}
+{% endblock body %}

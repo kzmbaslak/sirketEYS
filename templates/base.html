@@ -1,0 +1,32 @@
+
+{%load static %}
+
+<html>
+    <head>
+        
+        <link rel="stylesheet" href="{% static 'css/bootstrap.css'%}"/>
+        <link rel="stylesheet" href="{% static 'css/style.css'%}"/>
+        {% if not request.user.is_authenticated %}
+            <meta http-equiv="Refresh" content="0; URL=/admin">
+        {% endif %}
+            
+        {% block head %}
+        
+        {% endblock head %}
+
+        <title>{% block title %}
+        Şirket maliyet yönetim sistemi
+        {% endblock title %}</title>
+    </head>
+    {% if request.user.is_authenticated %}
+    <body>
+        {% include "header.html" %}
+        {% include "message.html" %}
+        {% block body %}
+        
+        {% endblock body %}
+        <script type="text/javascript" src = "{%static 'js/jquery.min.js'%}"></scrpit>
+        <script type="text/javascript" src="{%static 'js/bootstrap.min.js'%}"></scrpit>
+    </body>
+    {% endif %}
+</html>

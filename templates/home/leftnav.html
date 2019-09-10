@@ -1,0 +1,9 @@
+<div class="col-sm-2">
+    <ul class="nav nav-pills nav-stacked">
+        <li role="presentation" class="active"><a href="{% url 'home:index' %}">Ana Sayfa</a></li>
+        {% if canAdd %}
+            <li role="presentation" class="active"><a href="{% url 'home:create' %}">Duyuru Ekle</a></li>
+        {% endif %}
+        
+    </ul>
+</div>

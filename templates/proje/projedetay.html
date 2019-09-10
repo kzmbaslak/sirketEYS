@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block head %}
+    
+{% endblock head %}
+
+{% block title %}
+
+{% endblock title %}
+
+{% block body %}
+
+    {%if request.user.is_authenticated %}
+        <div class="container">
+            <div class="row">
+                {% include "proje/leftnav.html" %}
+                
+                <div class="col-sm-10">
+                {% if ekipler %}
+                    {% for ekip in ekipler %}
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">{{ekip.adi}} Üye Listesi	&nbsp;
+                                        {% if canChangeEkip %}
+                                            <a href="{% url 'proje:ekipUpdate' ekip.id %}" class="btn btn-default" role="button">Ekibi Düzenle</a>
+                                        {% endif %}
+                                        {% if canDeleteEkip %}
+                                            <a href="{% url 'proje:ekipDelete' ekip.id %}" class="btn btn-danger" role="button">Ekibi Dağıt</a>
+                                        {% endif %}
+                                        {% if canAddEkipUye %}
+                                            <a href="{% url 'proje:ekipUyeCreate' ekip.id %}" class="btn btn-primary" role="button">Üye Ekle</a>
+                                        {% endif %}
+                                    </div>
+                                    {% if ekipUyeler %}
+                                    <table class="table">
+                                        <tr>
+                                            <th>Çalışan Adı</th>
+                                            <th>Yetki</th>
+                                        </tr>
+                                        {% for ekipUye in ekipUyeler %}
+                                            {% for i in ekipUye %}
+                                                {% if i.ekip == ekip %}
+                                                    <tr>
+                                                        <td>{{ i.calisan.user.first_name }}</td>
+                                                        <td>{{ i.yetki.adi }}</td>
+                                                        <td>
+                                                            {% if canChangeEkipUye %}
+                                                                <a href="{% url 'proje:ekipUyeUpdate' i.id %}" class="btn btn-default" role="button">Düzenle</a>
+                                                            {% endif %}
+                                                            {% if canDeleteEkipUye %}
+                                                                <a href="{% url 'proje:ekipUyeDelete' i.id %}" class="btn btn-danger" role="button">Ekipten Çıkar</a>
+                                                            {% endif %}
+                                                        </td>
+                                                    </tr>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endfor %}
+                                    </table>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    {% endif %}
+                    {% if projeTalepler %}
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Proje Talep Listesi</div>
+                                
+                                <table class="table">
+                                    <tr>
+                                        <th>Proje Adı</th>
+                                        <th>Başlık</th>
+                                        <th>Talep Tarihi</th>
+                                        <th>Kabul Durumu</th>
+                                        <th></th>
+                                    </tr>
+                                    {% for talep in projeTalepler %}
+                                        <tr>
+                                            <td>{{ talep.proje.adi }}</td>
+                                            <td>{{ talep.baslik }}</td>
+                                            <td>{{ talep.tarihi }}</td>
+                                            <td>{{ talep.kabulDurumu }}</td>
+                                            <td>
+                                                <a href="{{ talep.get_absolute_url }}" class="btn btn-primary" role="button">İncele</a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {%endif%}
+{% endblock body %}

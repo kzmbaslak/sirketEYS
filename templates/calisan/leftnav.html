@@ -1,0 +1,20 @@
+<div class="col-sm-2">
+    <ul class="nav nav-pills nav-stacked">
+        <li role="presentation" class="active"><a href="{% url 'calisan:index' %}">Çalışanlar</a></li>
+        {% if canAdd %}
+            <li role="presentation" class="active"><a href="{% url 'calisan:create' %}">Çalışan Ekle</a></li>
+        {% endif %}
+        {% if canAddMaas %}
+            <li role="presentation" class="active"><a href="{% url 'calisan:maascreate' %}">Maaş Ödeme</a></li>
+        {% endif %}
+        {% if canAddSgk %}
+            <li role="presentation" class="active"><a href="{% url 'calisan:sgkprimcreate' %}">Sgk Prim Ödeme</a></li>
+        {% endif %}
+        {% if canAddIzin %}
+            <li role="presentation" class="active"><a href="{% url 'calisan:izincreate' %}">İzin Ver</a></li>
+        {% endif %}
+        {% if canAddKart %}
+            <li role="presentation" class="active"><a href="{% url 'calisan:kartcreate' %}">Kart Ata</a></li>
+        {% endif %}
+    </ul>
+</div>

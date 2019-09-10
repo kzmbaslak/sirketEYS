@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block head %}
+
+{% endblock head %}
+
+{% block title %}
+
+{% endblock title %}
+
+{% block body %}
+
+    {%if request.user.is_authenticated %}
+        <div class="container">
+            <div class="row">
+                {% include "home/leftnav.html" %}
+                <div class="col-sm-8">
+                    <div class="thumbnail">
+                        <div class="caption">
+                            <h3>{{duyuru.baslik}} <small>{{duyuru.tarih|timesince}} önce</small><hr>
+                            <p>{{duyuru.text|safe|linebreaks}}</p>
+                            <p>
+                            {% if canChange %}
+                                <a href="{{duyuru.get_update_url}}" class="btn btn-default" role="button">Güncelle</a> 
+                            {% endif %}
+                            {% if canDelete %}
+                                <a href="{{duyuru.get_delete_url}}" class="btn btn-danger" role="button">Sil</a>
+                            {% endif %}    
+                            </p>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {%endif%}
+
+{% endblock body %}

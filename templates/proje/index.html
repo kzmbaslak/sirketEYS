@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block head %}
+
+{% endblock head %}
+
+{% block title %}
+    Proje
+{% endblock title %}
+{% block body %}
+    <div class="container">
+        {% include "proje/leftnav.html" %}
+        <div class="col-sm-10">
+            <div class="panel panel-default">
+                <div class="panel-heading">Proje Listesi</div>
+                
+                <table class="table">
+                    <tr>
+                        <th>Proje Adı</th>
+                        <th>Yönetici</th> 
+                        <th></th>
+                    </tr>
+                    {% for proje in projeler %}
+                        <tr>
+                            <td>{{ proje.adi }}</td>
+                            <td>{{ proje.yoneticiCalisan }}</td>
+                            <td>
+                                <a href="{{ proje.get_absolute_url }}" class="btn btn-primary" role="button">İncele</a>
+                                {% if canChange %}
+                                    <a href="{{ proje.get_update_url }}" class="btn btn-default" role="button">Düzenle</a>
+                                {% endif %}
+                                {% if canDelete %}
+                                    <a href="{{ proje.get_delete_url }}" class="btn btn-danger" role="button">İptal Et</a>
+                                {% endif %}
+                                {% if canAddEkip %}
+                                    <a href="{% url 'proje:ekipCreate' proje.id %}" class="btn btn-default" role="button">Ekip Ekle</a>
+                                {% endif %}
+                                {% if canAddTalep %}
+                                    <a href="{% url 'proje:talepCreate' proje.slug %}" class="btn btn-primary" role="button">Talep Oluştur</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock body %}

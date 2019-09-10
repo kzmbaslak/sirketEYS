@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+
+{% block head %}
+
+{% endblock head %}
+{% block title %}
+    Ciro
+{% endblock title %}
+{% block body %}
+    <div class="container">
+        {% include "ciro/leftnav.html" %}
+        <div class="col-sm-10">
+            <div class="row">
+                <form method = "POST">
+                    {% csrf_token %} 
+                    <div class="form-group"> 
+                        <label for="select" class="control-label  requiredField">Zaman Aralığı<span class="asteriskField">*</span> </label> 
+                        <div class="controls "> 
+                            <select name="zaman" class="select form-control" required id="select"> 
+                                <option value="" selected>---------</option> 
+                                <option value="gunluk">Günlük</option> 
+                                <option value="aylik">Aylık</option> 
+                                <option value="yillik">Yıllık</option> 
+                                <option value="tumu">Tümü</option>
+                            </select> 
+                        </div>
+                    </div>
+                    <input class ="btn btn-primary" type ="submit" value = "Getir" >
+                </form>
+            </div>
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Ciro</div>
+                    <table class="table">
+                        <tr>
+                            <th>Toplam Ciro:</th>
+                            <td>{{ ciro }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Proje Gider Listesi</div>
+                    
+                    <table class="table">
+                        <tr>
+                            <th>Proje Adı</th>
+                            <th>Başlık</th> 
+                            <th>Talep Tarihi</th>
+                            <th>Kabul Tarihi</th>
+                            <th>Maliyet</th>
+                            <th></th>
+                        </tr>
+                        {% for projeGider in projeGiderler %}
+                            <tr>
+                                <td>{{ projeGider.talep.proje.adi }}</td>
+                                <td>{{ projeGider.talep.baslik }}</td>
+                                <td>{{ projeGider.talep.tarihi }}</td>
+                                <td>{{ projeGider.tarih }}</td>
+                                <td>{{ projeGider.talep.maliyet }}</td>
+                                <td>
+                                    <a href="{{ projeGider.talep.get_absolute_url }}" class="btn btn-primary" role="button">İncele</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><b>Toplam:</b></td>
+                                <td>{{ toplamProjeGider }}</td>
+                                <td></td>
+                            </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Alım Gider Listesi</div>
+                    
+                    <table class="table">
+                        <tr>
+                            <th>Ürün Adı</th>
+                            <th>Adedi</th> 
+                            <th>Birim Fiyatı</th>
+                            <th>Alım Tarihi</th>
+                            <th>Toplam Tutar</th>
+                            <th></th>
+                        </tr>
+                        {% for alim in alimlar %}
+                            <tr>
+                                <td>{{ alim.urunAdi }}</td>
+                                <td>{{ alim.urunAdedi }}</td>
+                                <td>{{ alim.birimFiyati }}</td>
+                                <td>{{ alim.tarih }}</td>
+                                <td>{{ alim.get_toplam_tutar }}</td>
+                                <td>
+                                    <a href="{{ alim.get_absolute_url }}" class="btn btn-primary" role="button">İncele</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><b>Toplam:</b></td>
+                            <td>{{ toplamAlim }}</td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Diğer Giderler</div>
+                    
+                    <table class="table">
+                        <tr>
+                            <th>Maaşlar:</th>
+                            <td>{{ toplamMaas }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Satım Gelir Listesi</div>
+                    
+                    <table class="table">
+                        <tr>
+                            <th>Ürün Adı</th>
+                            <th>Adedi</th> 
+                            <th>Alıcı Adı</th>
+                            <th>Satım Tarihi</th>
+                            <th>Toplam Tutar</th>
+                            <th></th>
+                        </tr>
+                        {% for satim in satimlar %}
+                            <tr>
+                                <td>{{ satim.urun }}</td>
+                                <td>{{ satim.adedi }}</td>
+                                <td>{{ satim.aliciAdi }}</td>
+                                <td>{{ satim.tarihi }}</td>
+                                <td>{{ satim.get_toplam_tutar }}</td>
+                                <td>
+                                    <a href="{{ satim.get_absolute_url }}" class="btn btn-primary" role="button">İncele</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><b>Toplam:</b></td>
+                            <td>{{ toplamSatim }}</td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}

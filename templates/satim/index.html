@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block head %}
+    
+{% endblock head %}
+{% block title %}
+    Satım
+{% endblock title %}
+{% block body %}
+<div class="container">
+    {% include "satim/leftnav.html" %}
+    <div class="col-sm-10">
+        <div class="panel panel-default">
+            <div class="panel-heading">Satılan Ürün Listesi</div>
+            
+            <table class="table">
+                <tr>
+                    <th>Ürün Adı</th>
+                    <th>Adedi</th> 
+                    <th>Alıcı Adı</th>
+                    <th>Satım Tarihi</th>
+                    <th>Toplam Tutar</th>
+                    <th></th>
+                </tr>
+                {% for satim in satimlar %}
+                    <tr>
+                        <td>{{ satim.urun }}</td>
+                        <td>{{ satim.adedi }}</td>
+                        <td>{{ satim.aliciAdi }}</td>
+                        <td>{{ satim.tarihi }}</td>
+                        <td>{{ satim.get_toplam_tutar }}</td>
+                        <td>
+                            <a href="{{ satim.get_absolute_url }}" class="btn btn-primary" role="button">İncele</a>
+                            {% if canChange %}
+                                <a href="{{ satim.get_update_url }}" class="btn btn-default" role="button">Düzenle</a>
+                            {% endif %}
+                            {% if canDelete %}
+                                <a href="{{ satim.get_delete_url }}" class="btn btn-danger" role="button">İptal Et</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock body %}

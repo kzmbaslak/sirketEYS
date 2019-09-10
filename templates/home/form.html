@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block head %}
+
+{% load crispy_forms_tags %}
+{% endblock head %}
+{% block title %}
+    Duyuru Oluştur
+{% endblock title %}
+{% block body %}
+    
+        <div class = "container">
+            <div class = "row">
+                {% include "home/leftnav.html" %}
+                <div class = "col-md-8">
+                    <form method="POST" enctype = "multipart/form-data">
+                        {% csrf_token %}
+                        {# {{form.as_p}} #}
+                        {{form|crispy}}
+                        {{form.media}}{# ckeditor kullanamak için#}
+                        <input class = "btn btn-primary" type ="submit" value = {{value}} >
+                    </form>
+                </div>
+            </div>
+        </div>
+    
+{% endblock body %}

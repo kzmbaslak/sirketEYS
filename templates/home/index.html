@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block head %}
+{% endblock head %}
+{% block title %}
+    Anasayfa
+{% endblock title %}
+
+
+
+{% block body %}
+    
+    <div class="container">
+        <div class="row">
+            {% include "home/leftnav.html" %}
+            <div class="col-sm-8">
+            {%for duyuru in duyuru %}
+                
+                    <div class="row">       
+                    <div class="col-sm-12 ">
+                        <div class="thumbnail">
+                            <div class="caption">
+                                <h3>{{duyuru.baslik}} <small>{{duyuru.tarih}}</small></h3>
+                                <p>{{duyuru.text|safe|linebreaks|truncatechars:100}}</p>
+                                <p>
+                                    <a href="{{duyuru.get_absolute_url}}" class="btn btn-primary" role="button">Incele</a>
+                                    {% if canChange %}
+                                        <a href="{{duyuru.get_update_url}}" class="btn btn-default" role="button">Güncelle</a>
+                                    {% endif %}
+                                    {% if canDelete %}
+                                        <a href="{{duyuru.get_delete_url}}" class="btn btn-danger" role="button">Sil</a></p>
+                                    {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {%endfor%}
+            </div>
+        </div>
+    </div>
+{% endblock body %}

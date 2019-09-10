@@ -1,0 +1,8 @@
+<div class="col-sm-2">
+    <ul class="nav nav-pills nav-stacked">
+        <li role="presentation" class="active"><a href="{% url 'alim:index' %}">Alım</a></li>
+        {% if canAdd %}
+            <li role="presentation" class="active"><a href="{% url 'alim:create' %}">Alım Yap</a></li>
+        {% endif %}
+    </ul>
+</div>

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block head %}
+
+{% load crispy_forms_tags %}
+{% endblock head %}
+{% block title %}
+    Çalışan Ekle
+{% endblock title %}
+{% block body %}
+    
+        <div class = "container">
+            <div class = "row">
+                {% include "calisan/leftnav.html" %}
+                <div class = "col-md-8">
+                    <form method="POST" enctype = "multipart/form-data">
+                        {% csrf_token %}
+                        {# {{form.as_p}} #}
+                        {{kartForm|crispy}}
+                        {{izinForm|crispy}}
+                        {{sgkPrimForm|crispy}}
+                        {{maasForm|crispy}}
+                        {{userform|crispy}}
+                        {{userform.media}}
+                        {{calisanForm|crispy}}
+                        {{calisanForm.media}}{# ckeditor kullanamak için#}
+                        <input class = "btn btn-primary" type ="submit" value = "{{value}}" >
+                    </form>
+                </div>
+            </div>
+        </div>
+    
+{% endblock body %}
