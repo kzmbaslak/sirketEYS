@@ -99,12 +99,14 @@ def getAuthorization(request,name):
     elif u.is_superuser:
         return 15
     else:
+        yetkiler = []
         for i in u.groups.all():
             for j in i.permissions.all():
                 #print(j.id,j.content_type_id,j.content_type,j.codename,j.name,j.id)
                 #from django.contrib.auth.models import  Permission kullanılarak shell de content_type_id öğrenilebilir.
                 if name in j.name[len(j.name)-len(name):]:
                     #print(j.id)
+                    yetkiler.append(j)
                     if "add" in j.name:
                         yetki += 1
                     if "change" in j.name:
@@ -119,7 +121,11 @@ def getAuthorization(request,name):
             
             #print(i.id,"-",i.content_type_id,"-",i.content_type,"-",i.codename,"-",i.name)
 
-            if name in i.name[len(i.name)-len(name):]:
+            kontrol = True
+            for j in yetkiler:
+                if(j == i):
+                    kontrol = False
+            if name in i.name[len(i.name)-len(name):] and kontrol:
                 print(i.id,"-",i.content_type_id,"-",i.content_type,"-",i.codename,"-",i.name)
                 #print(j.id)
                 if "add" in i.name:
